@@ -107,3 +107,26 @@ alias vim=nvim
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+# Activate or deactivate python virtual env called venv
+
+function chpwd_auto_python_venv() {
+    local venv_dir
+    local cur_dir="${PWD}"
+    while [[ "${cur_dir}" != / ]]; do
+        if [[ -f "${cur_dir}/venv/bin/activate" ]]; then
+            venv_dir="${cur_dir}/venv"
+            break
+        fi
+        cur_dir="$(dirname "$cur_dir")"
+    done
+    if [[ -z "${VIRTUAL_ENV}" ]] && [[ -n "${venv_dir}" ]]; then
+        # we found venv dir that is not yet activated
+        source "${venv_dir}"/bin/activate
+        echo ".zshrc: Automatically activated python venv: ${venv_dir}"
+    elif [[ -z "${venv_dir}" ]] && [[ -n "${VIRTUAL_ENV}" ]]; then
+        # we have activated virtual env but we cant find venv folder anymore
+        deactivate
+        echo ".zshrc: Automatically deactivated python venv"
+    fi
+}
+chpwd_functions+=(chpwd_auto_python_venv)
