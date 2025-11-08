@@ -1,5 +1,9 @@
 #!/bin/bash
 
 ln -sf ~/.dotfiles/.zshrc ~/.zshrc
-ln -sf ~/.dotfiles/nvim ~/.config/nvim
 ln -sf ~/.dotfiles/.tmux.conf ~/.tmux.conf
+
+# Remove the existing directory before linking
+rm -rf ~/.config/nvim
+ln -sf ~/.dotfiles/nvim ~/.config/nvim
+
