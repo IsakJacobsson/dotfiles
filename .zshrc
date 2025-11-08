@@ -109,6 +109,9 @@ alias vim=nvim
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 # Activate or deactivate python virtual env called venv
 
+# Enter tmux at startup
+[ -z "$TMUX" ] && (tmux attach -t default 2>/dev/null || tmux new -s default)
+
 function chpwd_auto_python_venv() {
     local venv_dir
     local cur_dir="${PWD}"
