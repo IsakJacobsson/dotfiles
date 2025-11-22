@@ -28,17 +28,19 @@ git_prompt() {
   # Check if inside git repo
   git rev-parse --is-inside-work-tree &>/dev/null || return
 
+  local toplevel=$(git rev-parse --show-toplevel 2>/dev/null)
+
   local git_color=$blue
 
   # Change branch color depending on git state
   # Clean branch
   local branch_color=$green  
   # Check staged change - Staged branch
-  if ! git diff --cached --quiet; then
+  if ! git -C "$toplevel" diff --cached --quiet; then
     branch_color=$yellow
   fi
   # Check unstaged or untracked changes - Dirty branch
-  if ! git diff --quiet || [[ -n $(git ls-files --others --exclude-standard) ]]; then
+  if ! git -C "$toplevel" diff --quiet || [[ -n $(git -C "$toplevel" ls-files --others --exclude-standard) ]]; then
     branch_color=$red
   fi
 
