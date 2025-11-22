@@ -1,5 +1,5 @@
 [submodule "nvim"]
-	path = nvim
+	path = .config/nvim
 	url = https://github.com/IsakJacobsson/nvim-config.git
 [submodule ".oh-my-zsh/custom/plugins/zsh-autosuggestions"]
 	path = .oh-my-zsh/custom/plugins/zsh-autosuggestions
