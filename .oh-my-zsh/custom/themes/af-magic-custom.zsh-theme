@@ -3,11 +3,11 @@
 # URL: http://andyfleming.com/
 
 # Colors
-blue="%F{032}"
+directory_color="%F{#61afef}"
 green="%F{green}"
 yellow="%F{yellow}"
 red="%F{red}"
-gray="%F{237}"
+comment_color="%F{#565f89}"
 
 function venv_adjusted_terminal_width {
   local python_env_dir="${VIRTUAL_ENV}"
@@ -30,7 +30,7 @@ git_prompt() {
 
   local toplevel=$(git rev-parse --show-toplevel 2>/dev/null)
 
-  local git_color=$blue
+  local git_color=$comment_color
 
   # Change branch color depending on git state
   # Clean branch
@@ -47,14 +47,41 @@ git_prompt() {
   local branch_name=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
 
   # Return git prompt
-  echo " ${git_color}git:(${branch_color}${branch_name}${git_color})%f"
+  echo " ${git_color}(${branch_color}${branch_name}${git_color})%f"
+}
+
+compressed_path() {
+  local path="${PWD/#$HOME/~}"
+  local parts=(${(s:/:)path})
+
+  local result=()
+  local nbr_full_dir_names=2
+
+  for i in {1..${#parts}}; do
+    if (( i <= ${#parts} - nbr_full_dir_names )); then
+      if [[ ${parts[i]} == "~" ]]; then
+        result+=("~")
+      else
+        result+=("${parts[i][1]}")
+      fi
+    else
+      result+=("${parts[i]}")
+    fi
+  done
+
+  joint_result="${(j:/:)result}"
+
+  # The path should start with a slash if it's not a home path
+  [[ $path == ~* ]] || joint_result="/$joint_result"
+
+  echo "$joint_result"
 }
 
 # Dashed line with terminal width as length
-prompt_separator="${gray}\${(l.\$(venv_adjusted_terminal_width)..-.)}%f"
+prompt_separator="${comment_color}\${(l.\$(venv_adjusted_terminal_width)..-.)}%f"
 
 # Primary prompt
-PS1="${prompt_separator}%B${yellow}%~\$(git_prompt)%f%b "
+PS1="${prompt_separator}%B${directory_color}\$(compressed_path)\$(git_prompt)%f%b "
 
 # Secondary prompt
 PS2="> "
@@ -66,5 +93,5 @@ if (( $+functions[virtualenv_prompt_info] )); then
 fi
 
 # virtualenv settings
-ZSH_THEME_VIRTUALENV_PREFIX=" ${gray}["
+ZSH_THEME_VIRTUALENV_PREFIX=" ${comment_color}["
 ZSH_THEME_VIRTUALENV_SUFFIX="]%f"
