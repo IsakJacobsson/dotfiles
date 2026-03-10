@@ -48,6 +48,6 @@
 # # Just for example:
 # resize-overlay-duration = 4s 200ms
 # window-theme = ghostty
-background = #1a1b26
-
-
+# background = #1a1b26
+macos-titlebar-proxy-icon = hidden
+theme = tokyonight Night
