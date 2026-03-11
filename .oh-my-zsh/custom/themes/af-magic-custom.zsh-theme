@@ -12,22 +12,6 @@ yellow="%F{yellow}"
 red="%F{red}"
 comment_color="%F{#565f89}"
 
-# Function based on afmagic_dashes in af-magic.zsh-theme, author Andy Fleming, https://github.com/ohmyzsh/ohmyzsh/blob/master/themes/af-magic.zsh-theme
-function venv_adjusted_terminal_width {
-  local python_env_dir="${VIRTUAL_ENV}"
-  local python_env="${python_env_dir##*/}"
-
-  # if there is a python virtual environment and it is displayed in
-  # the prompt, account for it when returning the number of dashes
-  if [[ -n "$python_env" && "$PS1" = *\(${python_env}\)* ]]; then
-    echo $(( COLUMNS - ${#python_env} - 3 ))
-  elif [[ -n "$VIRTUAL_ENV_PROMPT" && "$PS1" = *${VIRTUAL_ENV_PROMPT}* ]]; then
-    echo $(( COLUMNS - ${#VIRTUAL_ENV_PROMPT} - 3 ))
-  else
-    echo $COLUMNS
-  fi
-}
-
 git_prompt() {
   # Check if inside git repo
   git rev-parse --is-inside-work-tree &>/dev/null || return
@@ -92,7 +76,7 @@ compressed_path() {
 }
 
 # Dashed line with terminal width as length
-prompt_separator="${comment_color}\${(l.\$(venv_adjusted_terminal_width)..-.)}%f"
+prompt_separator="${comment_color}\${(l.\${COLUMNS}..-.)}%f"
 
 # Left prompt: dashed line, compressed path, git branch
 PS1="${prompt_separator}%B\$(compressed_path) \$(git_prompt)%f%b "
