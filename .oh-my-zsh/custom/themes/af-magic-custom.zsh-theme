@@ -1,14 +1,18 @@
-# Based on af-magic.zsh-theme
-# Original author: Andy Fleming
-# URL: http://andyfleming.com/
+# Feature list:
+# - Git branch state indication using colors
+# - Compressed path
+# - Dashed line separator
+# - Virtualenv shown in right prompt
+# - Error code in right prompt
 
-# Colors
+# Colors - Matches Neovim theme Tokyonight Night, https://github.com/folke/tokyonight.nvim
 directory_color="%F{#61afef}"
 green="%F{green}"
 yellow="%F{yellow}"
 red="%F{red}"
 comment_color="%F{#565f89}"
 
+# Function based on afmagic_dashes in af-magic.zsh-theme, author Andy Fleming, https://github.com/ohmyzsh/ohmyzsh/blob/master/themes/af-magic.zsh-theme
 function venv_adjusted_terminal_width {
   local python_env_dir="${VIRTUAL_ENV}"
   local python_env="${python_env_dir##*/}"
@@ -90,10 +94,8 @@ compressed_path() {
 # Dashed line with terminal width as length
 prompt_separator="${comment_color}\${(l.\$(venv_adjusted_terminal_width)..-.)}%f"
 
-# Primary prompt
+# Left prompt: dashed line, compressed path, git branch
 PS1="${prompt_separator}%B\$(compressed_path) \$(git_prompt)%f%b "
-
-# Secondary prompt
 PS2="> "
 
 # Right prompt: error code, virtualenv
