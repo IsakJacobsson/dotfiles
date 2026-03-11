@@ -47,7 +47,7 @@ git_prompt() {
   local branch_name=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
 
   # Return git prompt
-  echo " ${git_color}(${branch_color}${branch_name}${git_color})%f"
+  echo "${git_color}(${branch_color}${branch_name}${git_color})%f"
 }
 
 compressed_path() {
@@ -57,12 +57,22 @@ compressed_path() {
   local result=()
   local nbr_full_dir_names=2
 
+  if (( ${#parts} == 0 )); then
+    echo "${directory_color}/%f"
+    return
+  fi
+
   for i in {1..${#parts}}; do
     if (( i <= ${#parts} - nbr_full_dir_names )); then
       if [[ ${parts[i]} == "~" ]]; then
         result+=("~")
       else
-        result+=("${parts[i][1]}")
+        # For hidden directories, we want to keep the dot and the first character of the name
+        if [[ ${parts[i]} == .* ]]; then
+          result+=("${parts[i][1,2]}")
+        else
+          result+=("${parts[i][1]}")
+        fi
       fi
     else
       result+=("${parts[i]}")
@@ -72,16 +82,16 @@ compressed_path() {
   joint_result="${(j:/:)result}"
 
   # The path should start with a slash if it's not a home path
-  [[ $path == ~* ]] || joint_result="/$joint_result"
+  [[ $path == "~"* ]] || joint_result="/$joint_result"
 
-  echo "$joint_result"
+  echo "${directory_color}${joint_result}%f"
 }
 
 # Dashed line with terminal width as length
 prompt_separator="${comment_color}\${(l.\$(venv_adjusted_terminal_width)..-.)}%f"
 
 # Primary prompt
-PS1="${prompt_separator}%B${directory_color}\$(compressed_path)\$(git_prompt)%f%b "
+PS1="${prompt_separator}%B\$(compressed_path) \$(git_prompt)%f%b "
 
 # Secondary prompt
 PS2="> "
