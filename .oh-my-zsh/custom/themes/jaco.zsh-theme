@@ -1,11 +1,13 @@
-# Feature list:
-# - Git branch state indication using colors
-# - Compressed path
-# - Dashed line separator
-# - Virtualenv shown in right prompt
-# - Error code in right prompt
+# jaco zsh theme
 
-# Colors - Matches Neovim theme Tokyonight Night, https://github.com/folke/tokyonight.nvim
+# Git branch state indication using colors (Clean: green, Staged: yellow, Dirty: red)
+# Compressed path (~/repos/project/src -> ~/r/projects/src)
+# Tokyonight Night color scheme, https://github.com/folke/tokyonight.nvim
+# Full width dashed line separator
+# Virtualenv in right prompt
+# Error code in right prompt
+
+# Colors
 directory_color="%F{#61afef}"
 green="%F{green}"
 yellow="%F{yellow}"
