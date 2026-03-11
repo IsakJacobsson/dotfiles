@@ -9,9 +9,9 @@
 
 # Colors
 directory_color="%F{#61afef}"
-green="%F{green}"
-yellow="%F{yellow}"
-red="%F{red}"
+green="%F{#9ece6a}"
+yellow="%F{#e0af68}"
+red="%F{#f7768e}"
 comment_color="%F{#565f89}"
 
 git_prompt() {
