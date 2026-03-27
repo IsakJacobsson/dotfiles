@@ -49,5 +49,9 @@
 # resize-overlay-duration = 4s 200ms
 # window-theme = ghostty
 # background = #1a1b26
+font-family = "JetBrains Mono"
 macos-titlebar-proxy-icon = hidden
 theme = tokyonight Night
+shell-integration-features = no-cursor
+cursor-style-blink = false
+title = " "
