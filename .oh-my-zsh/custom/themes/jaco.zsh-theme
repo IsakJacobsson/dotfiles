@@ -36,7 +36,7 @@ git_prompt() {
   local branch_name=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
 
   # Return git prompt
-  echo "${git_color}(${branch_color}${branch_name}${git_color})%f"
+  echo " ${git_color}(${branch_color}${branch_name}${git_color})%f"
 }
 
 compressed_path() {
@@ -80,7 +80,7 @@ compressed_path() {
 prompt_separator="${comment_color}\${(l.\${COLUMNS}..-.)}%f"
 
 # Left prompt: dashed line, compressed path, git branch
-PS1="${prompt_separator}%B\$(compressed_path) \$(git_prompt)%f%b "
+PS1="${prompt_separator}%B\$(compressed_path)\$(git_prompt)%f%b "
 PS2="> "
 
 # Right prompt: error code, virtualenv
