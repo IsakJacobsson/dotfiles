@@ -2,17 +2,16 @@
 
 # Git branch state indication using colors (Clean: green, Staged: yellow, Dirty: red)
 # Compressed path (~/repos/project/src -> ~/r/projects/src)
-# Tokyonight Night color scheme, https://github.com/folke/tokyonight.nvim
 # Full width dashed line separator
 # Virtualenv in right prompt
 # Error code in right prompt
 
 # Colors
-directory_color="%F{#61afef}"
-green="%F{#9ece6a}"
-yellow="%F{#e0af68}"
-red="%F{#f7768e}"
-comment_color="%F{#565f89}"
+directory_color="%F{blue}"
+green="%F{green}"
+yellow="%F{yellow}"
+red="%F{red}"
+comment_color="%F{8}"
 
 git_prompt() {
   # Check if inside git repo
