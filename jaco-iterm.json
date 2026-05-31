@@ -1,11 +1,5 @@
 {
-  "Foreground Color (Dark)" : {
-    "Red Component" : 0.86197912693023682,
-    "Color Space" : "sRGB",
-    "Blue Component" : 0.86198854446411133,
-    "Alpha Component" : 1,
-    "Green Component" : 0.86199951171875
-  },
+  "Close Sessions On End" : true,
   "Ansi 15 Color (Dark)" : {
     "Red Component" : 0.99999600648880005,
     "Color Space" : "sRGB",
@@ -82,7 +76,7 @@
   "Bound Hosts" : [
 
   ],
-  "Use Bright Bold" : true,
+  "Use Bright Bold" : false,
   "Horizontal Spacing" : 1,
   "Ansi 13 Color (Light)" : {
     "Red Component" : 0.8821563720703125,
@@ -391,6 +385,7 @@
     "Green Component" : 0.24931684136390686
   },
   "Window Type" : 0,
+  "Brighten Bold Text" : true,
   "ASCII Anti Aliased" : true,
   "Use Tab Color (Dark)" : false,
   "Cursor Guide Color (Dark)" : {
@@ -428,11 +423,11 @@
     "Green Component" : 0.98600882291793823
   },
   "Ansi 15 Color" : {
-    "Red Component" : 0.99607843137254903,
+    "Red Component" : 0.996776282787323,
     "Color Space" : "P3",
-    "Blue Component" : 1,
+    "Blue Component" : 0.99993330240249634,
     "Alpha Component" : 1,
-    "Green Component" : 1
+    "Green Component" : 0.99987012147903442
   },
   "Ansi 11 Color (Light)" : {
     "Red Component" : 0.9259033203125,
@@ -472,9 +467,11 @@
   },
   "Use Bright Bold (Dark)" : true,
   "Bold Color" : {
-    "Green Component" : 1,
-    "Red Component" : 1,
-    "Blue Component" : 1
+    "Red Component" : 0,
+    "Color Space" : "P3",
+    "Blue Component" : 0,
+    "Alpha Component" : 1,
+    "Green Component" : 0
   },
   "Selected Text Color (Light)" : {
     "Red Component" : 0,
@@ -534,11 +531,11 @@
     "Green Component" : 1
   },
   "Link Color" : {
-    "Red Component" : 0.14513972401618958,
+    "Red Component" : 0.23137254901960785,
     "Color Space" : "P3",
-    "Blue Component" : 0.7093239426612854,
+    "Blue Component" : 0.87450980392156863,
     "Alpha Component" : 1,
-    "Green Component" : 0.35333043336868286
+    "Green Component" : 0.52941176470588236
   },
   "Ansi 6 Color" : {
     "Red Component" : 0,
@@ -672,12 +669,18 @@
     "Red Component" : 0,
     "Blue Component" : 0
   },
-  "Close Sessions On End" : true,
   "Ansi 12 Color (Light)" : {
     "Red Component" : 0.65349078178405762,
     "Color Space" : "sRGB",
     "Blue Component" : 0.9485321044921875,
     "Alpha Component" : 1,
     "Green Component" : 0.67044717073440552
+  },
+  "Foreground Color (Dark)" : {
+    "Red Component" : 0.86197912693023682,
+    "Color Space" : "sRGB",
+    "Blue Component" : 0.86198854446411133,
+    "Alpha Component" : 1,
+    "Green Component" : 0.86199951171875
   }
 }
