@@ -80,7 +80,7 @@ compressed_path() {
 prompt_separator="${comment_color}\${(l.\${COLUMNS}..-.)}%f"
 
 # Left prompt: dashed line, compressed path, git branch
-PS1="${prompt_separator}%B\$(compressed_path)\$(git_prompt)%f%b "
+PS1="${prompt_separator}\$(compressed_path)\$(git_prompt)%f "
 PS2="> "
 
 # Right prompt: error code, virtualenv
