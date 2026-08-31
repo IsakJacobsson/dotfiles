@@ -6,11 +6,11 @@ SOCKET="tmux-color-test"
 
 # Update this list if you add new required colors to your theme files
 required_colors=(
-    @status_bar_bg
-    @active_text_color
-    @inactive_text_color
-    @active_bg_color
-    @inactive_bg_color
+    @surface_bg
+    @text_primary
+    @text_secondary
+    @accent_primary
+    @accent_secondary
 )
 
 themes=( "$HOME/.tmux/colors/"*.conf )
