@@ -55,17 +55,17 @@ local function jaco_light(colors)
     colors.dark5 = "#929c98"
 
     colors.diff = {
-      add = "#bed8cd",
-      change = "#93c0af",
-      delete = "#f4d6d6",
-      text = "#93c0af",
+        add = "#bed8cd",
+        change = "#93c0af",
+        delete = "#f4d6d6",
+        text = "#93c0af",
     }
 
     colors.git = {
-      add = "#008b17",
-      change = "#0076c5",
-      delete = "#d12525",
-      ignore = "#929c98",
+        add = "#008b17",
+        change = "#0076c5",
+        delete = "#d12525",
+        ignore = "#929c98",
     }
 
     colors.error = "#d12525"
@@ -75,43 +75,43 @@ local function jaco_light(colors)
     colors.todo = "#0076c5"
 
     colors.terminal = {
-      black = "#000000",
-      black_bright = "#929c98",
+        black = "#000000",
+        black_bright = "#929c98",
 
-      blue = "#0076c5",
-      blue_bright = "#3b87df",
+        blue = "#0076c5",
+        blue_bright = "#3b87df",
 
-      cyan = "#008f8f",
-      cyan_bright = "#50b1b2",
+        cyan = "#008f8f",
+        cyan_bright = "#50b1b2",
 
-      green = "#008b17",
-      green_bright = "#52b63d",
+        green = "#008b17",
+        green_bright = "#52b63d",
 
-      magenta = "#7522d3",
-      magenta_bright = "#752bdd",
+        magenta = "#7522d3",
+        magenta_bright = "#752bdd",
 
-      red = "#d12525",
-      red_bright = "#d33d34",
+        red = "#d12525",
+        red_bright = "#d33d34",
 
-      white = "#000000",
-      white_bright = "#000000",
+        white = "#000000",
+        white_bright = "#000000",
 
-      yellow = "#c08403",
-      yellow_bright = "#dba137",
+        yellow = "#c08403",
+        yellow_bright = "#dba137",
     }
 
     colors.terminal_black = "#929c98"
 
     colors.none = "NONE"
     colors.rainbow = {
-      "#0076c5",
-      "#c08403",
-      "#008b17",
-      "#008f8f",
-      "#7522d3",
-      "#d33d34",
-      "#3b87df",
-      "#dba137",
+        "#0076c5",
+        "#c08403",
+        "#008b17",
+        "#008f8f",
+        "#7522d3",
+        "#d33d34",
+        "#3b87df",
+        "#dba137",
     }
 end
 
@@ -232,6 +232,8 @@ local function jaco_dark(colors)
         "#ebbd5c",
     }
 end
+
+vim.pack.add({ "https://github.com/folke/tokyonight.nvim" })
 
 ---@diagnostic disable-next-line: missing-fields
 require("tokyonight").setup({
