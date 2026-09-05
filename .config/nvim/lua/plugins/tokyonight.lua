@@ -233,35 +233,23 @@ local function jaco_dark(colors)
     }
 end
 
-return {
-    {
-        "folke/tokyonight.nvim",
-        priority = 1000, -- Make sure to load this before all the other start plugins.
-        config = function()
-            ---@diagnostic disable-next-line: missing-fields
-            require("tokyonight").setup({
-                transparent = true,
-                styles = {
-                    -- Floating windows will have same background as nvim.
-                    -- E.g., Telescope or auto complete menu.
-                    -- Looks good with vim.o.winborder = true.
-                    floats = "transparent",
-                },
-                on_highlights = function(hl, c)
-                    hl.LineNr = { fg = c.fg_dark }
-                    hl.LineNrAbove = { fg = c.fg_dark }
-                    hl.LineNrBelow = { fg = c.fg_dark }
-                end,
-                on_colors = function(colors)
-                    colors.comment = colors.fg_dark
-                end,
-                -- on_colors = jaco_light,
-            })
+---@diagnostic disable-next-line: missing-fields
+require("tokyonight").setup({
+    transparent = true,
 
-            -- Load the colorscheme here.
-            -- Like many other themes, this one has different styles, and you could load
-            -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-            vim.cmd.colorscheme("tokyonight-storm")
-        end,
+    styles = {
+        floats = "transparent",
     },
-}
+
+    on_highlights = function(hl, c)
+        hl.LineNr = { fg = c.fg_dark }
+        hl.LineNrAbove = { fg = c.fg_dark }
+        hl.LineNrBelow = { fg = c.fg_dark }
+    end,
+
+    on_colors = function(colors)
+        colors.comment = colors.fg_dark
+    end,
+})
+
+vim.cmd.colorscheme("tokyonight-storm")

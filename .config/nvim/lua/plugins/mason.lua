@@ -1,25 +1,18 @@
-return {
-    "mason-org/mason-lspconfig.nvim",
-    opts = {
-        ensure_installed = {
-            "lua_ls",
-            "stylua",
-            "pyright",
-            "bashls",
-            "clangd",
-        },
+require("mason").setup()
+
+require("mason-lspconfig").setup({
+    ensure_installed = {
+        "lua_ls",
+        "pyright",
+        "bashls",
+        "clangd",
     },
-    dependencies = {
-        { "mason-org/mason.nvim", opts = {} },
-        {
-            "WhoIsSethDaniel/mason-tool-installer.nvim",
-            opts = {
-                ensure_installed = {
-                    "isort",
-                    "black",
-                },
-            },
-        },
-        "neovim/nvim-lspconfig",
+})
+
+require("mason-tool-installer").setup({
+    ensure_installed = {
+        "stylua",
+        "isort",
+        "black",
     },
-}
+})
