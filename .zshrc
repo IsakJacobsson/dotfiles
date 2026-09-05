@@ -78,7 +78,7 @@ source $ZSH/oh-my-zsh.sh
 # User configuration
 
 # Add nvim to the path
-export PATH="$HOME/.local/share/nvim/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
 alias vim=nvim
 
 # export MANPATH="/usr/local/man:$MANPATH"
