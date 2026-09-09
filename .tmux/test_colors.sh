@@ -11,6 +11,7 @@ required_colors=(
     @text_secondary
     @accent_primary
     @accent_secondary
+    @accent_tertiary
 )
 
 themes=( "$HOME/.tmux/colors/"*.conf )
