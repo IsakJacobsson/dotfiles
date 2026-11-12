@@ -4,6 +4,7 @@ require("nvim-treesitter").install({
     "bash",
     "c",
     "diff",
+    "groovy",
     "html",
     "lua",
     "luadoc",

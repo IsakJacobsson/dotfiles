@@ -11,6 +11,7 @@ require("mason-tool-installer").setup({
         "bash-language-server", -- Uses bashls lsp config
         "clangd",
         "lua-language-server", -- Uses lua_ls lsp config
+        "vtsls", -- For javascript and typescript
         "pyright",
         "black",
         "isort",

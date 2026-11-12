@@ -3,6 +3,7 @@ vim.lsp.enable({
     "clangd",
     "lua_ls",
     "pyright",
+    "vtsls",
 })
 
 -- Configure LSP-specific behavior when an LSP attaches to a buffer
