@@ -1,0 +1,12 @@
+# GitHub command-line tool
+gh
+
+# Python development tools
+python3-pip
+python3-venv
+
+# File synchronization tool
+unison
+
+# Terminal multiplexer
+tox

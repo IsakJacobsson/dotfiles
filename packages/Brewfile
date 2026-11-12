@@ -1,0 +1,18 @@
+# GitHub command-line tool
+brew "gh"
+
+# Alternative to find
+brew "fd"
+
+# Search tool like grep
+brew "ripgrep"
+
+# File synchronization tool
+brew "unison"
+
+# Mac window tiling manager
+tap "nikitabobko/tap"
+cask "aerospace"
+
+# Terminal emulator
+cask "ghostty"
