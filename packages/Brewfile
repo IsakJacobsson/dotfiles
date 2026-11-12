@@ -10,6 +10,13 @@ brew "ripgrep"
 # File synchronization tool
 brew "unison"
 
+# Display directories as trees (with optional color/HTML output)
+brew "tree"
+
+# Incremental parsing library used by neovim
+brew "tree-sitter"
+brew "tree-sitter-cli"
+
 # Mac window tiling manager
 tap "nikitabobko/tap"
 cask "aerospace"

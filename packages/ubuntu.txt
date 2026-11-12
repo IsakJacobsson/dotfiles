@@ -7,6 +7,9 @@ fd-find
 # Search tool like grep
 ripgrep
 
+# Display directories as trees (with optional color/HTML output)
+tree
+
 # Python development tools
 python3-pip
 python3-venv
