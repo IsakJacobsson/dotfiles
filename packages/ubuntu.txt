@@ -1,6 +1,12 @@
 # GitHub command-line tool
 gh
 
+# Alternative to find
+fd-find
+
+# Search tool like grep
+ripgrep
+
 # Python development tools
 python3-pip
 python3-venv
