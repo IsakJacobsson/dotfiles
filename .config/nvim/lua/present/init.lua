@@ -53,7 +53,7 @@ end
 --- @param buf integer Buffer handle
 --- @param win integer Window handle
 --- @param slide present.Slide Slide data containing a title and body
-local function render_slide(buf, win, slide)
+local function render_slide(buf, win, slide, bullet_highlight_row)
   local width = vim.api.nvim_win_get_width(win)
   local content_width = width - 2
 
@@ -67,6 +67,18 @@ local function render_slide(buf, win, slide)
   vim.list_extend(lines, slide.body)
 
   vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
+
+  -- Clear previous highlights
+  vim.api.nvim_buf_clear_namespace(buf, highlight_ns, 0, -1)
+
+  -- Highlight the title
+  vim.api.nvim_buf_add_highlight(buf, highlight_ns, "Title", 1, 1, -1)
+
+  -- Highlight bullet
+  if bullet_highlight_row then
+    vim.api.nvim_buf_add_highlight(buf, highlight_ns, "Statement", bullet_highlight_row, 0, -1)
+  end
+
   vim.api.nvim_win_set_cursor(win, { 1, 0 })
 end
 
@@ -83,24 +95,6 @@ local function get_bullet_rows(slide)
   end
 
   return rows
-end
-
---- Highlights a bullet line.
---- @param buf integer Buffer handle.
---- @param row integer|nil Buffer row to highlight, or nil to clear.
-local function highlight_bullet(buf, row)
-  vim.api.nvim_buf_clear_namespace(buf, highlight_ns, 0, -1)
-
-  if row then
-    vim.api.nvim_buf_add_highlight(
-      buf,
-      highlight_ns,
-      "Statement",
-      row,
-      0,
-      -1
-    )
-  end
 end
 
 --- Open a floating winding with a scratch buffer.
@@ -133,10 +127,10 @@ local function show_presentation(slides)
   local bullet_indices = {}
 
   local function render_current_slide()
-    render_slide(buf, win, slides[slide_index])
     bullet_rows = get_bullet_rows(slides[slide_index])
     bullet_index = bullet_indices[slide_index]
-    highlight_bullet(buf, bullet_index and bullet_rows[bullet_index])
+    local highlight_row = bullet_index and bullet_rows[bullet_index]
+    render_slide(buf, win, slides[slide_index], highlight_row)
   end
 
   local function move_down()
@@ -157,8 +151,7 @@ local function show_presentation(slides)
       render_current_slide()
       return
     end
-
-    highlight_bullet(buf, bullet_rows[bullet_index])
+    render_current_slide()
   end
 
   local function move_up()
@@ -179,7 +172,7 @@ local function show_presentation(slides)
     end
 
     bullet_indices[slide_index] = bullet_index
-    highlight_bullet(buf, bullet_index and bullet_rows[bullet_index])
+    render_current_slide()
   end
 
   vim.keymap.set("n", "j", move_down, { buffer = buf })
