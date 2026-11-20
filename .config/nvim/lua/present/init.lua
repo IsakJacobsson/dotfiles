@@ -118,6 +118,33 @@ local function open_window()
   return buf, win
 end
 
+local function setup_rezise_autocmds(buf, win, render_callback)
+  local group = vim.api.nvim_create_augroup("PresentRezise" .. buf, {
+    clear = true,
+  })
+
+  vim.api.nvim_create_autocmd("WinResized", {
+    group = group,
+    callback = function()
+      for _, resized_win in ipairs(vim.v.event.windows) do
+        if resized_win == win then
+          render_callback()
+          break
+        end
+      end
+    end,
+  })
+
+  vim.api.nvim_create_autocmd("WinClosed", {
+    group = group,
+    pattern = tostring(win),
+    once = true,
+    callback = function()
+      vim.api.nvim_del_augroup_by_id(group)
+    end,
+  })
+end
+
 --- @param slides present.Slide[] Slides to present.
 local function show_presentation(slides)
   local buf, win = open_window()
@@ -132,6 +159,8 @@ local function show_presentation(slides)
     local highlight_row = bullet_index and bullet_rows[bullet_index]
     render_slide(buf, win, slides[slide_index], highlight_row)
   end
+
+  setup_rezise_autocmds(buf, win, render_current_slide)
 
   local function move_down()
     if not bullet_index then
