@@ -1,5 +1,7 @@
 local M = {}
 
+local highlight_ns = vim.api.nvim_create_namespace("present")
+
 --- @class present.Slides
 --- @field slides Slide[]: List of slides
 
@@ -27,25 +29,8 @@ local function parse_slides(lines)
   return slides
 end
 
---- Open a floating winding with a scratch buffer.
---- The buffer is automatically deleted when hidden.
---- @return integer buf Buffer handle
---- @return integer win Window handle
-local function open_window()
-  local buf = vim.api.nvim_create_buf(false, true)
-  vim.bo[buf].bufhidden = "wipe"
-
-  local win = vim.api.nvim_open_win(buf, true, {
-    relative = "editor",
-    row = 1,
-    col = 1,
-    width = vim.o.columns,
-    height = vim.o.lines,
-    border = { " ", " ", " ", " ", " ", " ", " ", " " },
-    style = "minimal",
-  })
-
-  return buf, win
+local function is_markdown_file()
+  return vim.bo.filetype == "markdown"
 end
 
 --- Calculates the horizontal padding needed to center text.
@@ -54,12 +39,12 @@ end
 --- @return integer left Left padding
 --- @return integer Right Right padding
 local function calculate_horizontal_padding(width, text)
-  local text_width = vim.fn.strdisplaywidth(text)
-  local left = math.max(0, math.floor(
-    (width - text_width) / 2
-  ))
-  local right = math.max(0, width - left - text_width)
-  return left, right
+    local text_width = vim.fn.strdisplaywidth(text)
+    local left = math.max(0, math.floor(
+        (width - text_width) / 2
+    ))
+    local right = math.max(0, width - left - text_width)
+    return left, right
 end
 
 --- Renders a slide inside a window.
@@ -85,27 +70,126 @@ local function render_slide(buf, win, slide)
   vim.api.nvim_win_set_cursor(win, { 1, 0 })
 end
 
-local function is_markdown_file()
-  return vim.bo.filetype == "markdown"
-end
+--- Gets the buffer line numbers of all bullets in a slide.
+--- @param slide present.Slide
+--- @return integer[] rows
+local function get_bullet_rows(slide)
+  local rows = {}
 
---- @param slides present.Slides Slides to present
-local function show_presentation(slides)
-  local buf, win = open_window()
-  local index = 1
-
-  local function move(delta)
-    index = math.max(1, math.min(#slides, index + delta))
-    render_slide(buf, win, slides[index])
+  for i, line in ipairs(slide.body) do
+    if line:match("^%s*[-*+]%s+") then
+      rows[#rows + 1] = i + 2
+    end
   end
 
-  vim.keymap.set("n", "j", function() move(1) end, { buffer = buf })
-  vim.keymap.set("n", "k", function() move(-1) end, { buffer = buf })
+  return rows
+end
+
+--- Highlights a bullet line.
+--- @param buf integer Buffer handle.
+--- @param row integer|nil Buffer row to highlight, or nil to clear.
+local function highlight_bullet(buf, row)
+  vim.api.nvim_buf_clear_namespace(buf, highlight_ns, 0, -1)
+
+  if row then
+    vim.api.nvim_buf_add_highlight(
+      buf,
+      highlight_ns,
+      "Statement",
+      row,
+      0,
+      -1
+    )
+  end
+end
+
+--- Open a floating winding with a scratch buffer.
+--- The buffer is automatically deleted when hidden.
+--- @return integer buf Buffer handle
+--- @return integer win Window handle
+local function open_window()
+  local buf = vim.api.nvim_create_buf(false, true)
+  vim.bo[buf].bufhidden = "wipe"
+
+  local win = vim.api.nvim_open_win(buf, true, {
+    relative = "editor",
+    row = 1,
+    col = 1,
+    width = vim.o.columns,
+    height = vim.o.lines,
+    border = { " ", " ", " ", " ", " ", " ", " ", " " },
+    style = "minimal",
+  })
+
+  return buf, win
+end
+
+--- @param slides present.Slide[] Slides to present.
+local function show_presentation(slides)
+  local buf, win = open_window()
+  local slide_index = 1
+  local bullet_index = nil
+  local bullet_rows = get_bullet_rows(slides[slide_index])
+  local bullet_indices = {}
+
+  local function render_current_slide()
+    render_slide(buf, win, slides[slide_index])
+    bullet_rows = get_bullet_rows(slides[slide_index])
+    bullet_index = bullet_indices[slide_index]
+    highlight_bullet(buf, bullet_index and bullet_rows[bullet_index])
+  end
+
+  local function move_down()
+    if not bullet_index then
+      if #bullet_rows > 0 then
+        bullet_index = 1
+        bullet_indices[slide_index] = bullet_index
+      elseif slide_index < #slides then
+        slide_index = slide_index + 1
+        render_current_slide()
+        return
+      end
+    elseif bullet_index < #bullet_rows then
+      bullet_index = bullet_index + 1
+      bullet_indices[slide_index] = bullet_index
+    elseif slide_index < #slides then
+      slide_index = slide_index + 1
+      render_current_slide()
+      return
+    end
+
+    highlight_bullet(buf, bullet_rows[bullet_index])
+  end
+
+  local function move_up()
+    if not bullet_index then
+      if slide_index > 1 then
+        slide_index = slide_index - 1
+        bullet_indices[slide_index] = bullet_indices[slide_index] or #get_bullet_rows(slides[slide_index])
+
+        render_current_slide()
+      end
+      return
+    end
+
+    if bullet_index > 1 then
+      bullet_index = bullet_index - 1
+    else
+      bullet_index = nil
+    end
+
+    bullet_indices[slide_index] = bullet_index
+    highlight_bullet(buf, bullet_index and bullet_rows[bullet_index])
+  end
+
+  vim.keymap.set("n", "j", move_down, { buffer = buf })
+  vim.keymap.set("n", "k", move_up, { buffer = buf })
+
   vim.keymap.set("n", "q", function()
     vim.api.nvim_win_close(win, true)
   end, { buffer = buf })
 
-  render_slide(buf, win, slides[index])
+  render_current_slide()
 end
 
 local function start()
