@@ -53,8 +53,9 @@ end
 --- @param buf integer Buffer handle
 --- @param win integer Window handle
 --- @param slide present.Slide Slide data containing a title and body
-local function render_slide(buf, win, slide, bullet_highlight_row)
+local function render_slide(buf, win, slide, slide_idx, total_slides, bullet_highlight_row)
   local width = vim.api.nvim_win_get_width(win)
+  local height = vim.api.nvim_win_get_height(win)
   local content_width = width - 2
 
   local title_left_padding, title_right_padding = calculate_horizontal_padding(content_width, slide.title)
@@ -69,6 +70,19 @@ local function render_slide(buf, win, slide, bullet_highlight_row)
   for _, line in ipairs(slide.body) do
     table.insert(lines, string.rep(" ", BODY_INDENTATION) .. line)
   end
+
+  -- Leave space for the progress indicator at the bottom
+  local current_lines = #lines
+  local empty_lines = height - current_lines - 1
+  for _ = 1, math.max(0, empty_lines) do
+    table.insert(lines, "")
+  end
+
+  local progress = slide_idx .. " / " .. total_slides
+  local progress_left_padding, _ = calculate_horizontal_padding(width, progress)
+  local progress_line = string.rep(" ", progress_left_padding) .. progress
+
+  table.insert(lines, progress_line)
 
   vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
 
@@ -161,7 +175,7 @@ local function show_presentation(slides)
     bullet_rows = get_bullet_rows(slides[slide_index])
     bullet_index = bullet_indices[slide_index]
     local highlight_row = bullet_index and bullet_rows[bullet_index]
-    render_slide(buf, win, slides[slide_index], highlight_row)
+    render_slide(buf, win, slides[slide_index], slide_index, #slides, highlight_row)
   end
 
   setup_rezise_autocmds(buf, win, render_current_slide)
