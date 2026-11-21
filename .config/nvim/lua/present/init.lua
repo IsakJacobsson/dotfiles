@@ -59,12 +59,16 @@ local function render_slide(buf, win, slide, bullet_highlight_row)
 
   local title_left_padding, title_right_padding = calculate_horizontal_padding(content_width, slide.title)
 
-  local top_title_box = "╭" .. string.rep("─", content_width) .. "╮"
+  local top_title_box    = "╭" .. string.rep("─", content_width) .. "╮"
   local middle_title_box = "│" .. string.rep(" ", title_left_padding) .. slide.title .. string.rep(" ", title_right_padding) .. "│"
   local bottom_title_box = "╰" .. string.rep("─", content_width) .. "╯"
 
   local lines = { top_title_box, middle_title_box, bottom_title_box }
-  vim.list_extend(lines, slide.body)
+  -- Add body with indentation
+  local BODY_INDENTATION = 2
+  for _, line in ipairs(slide.body) do
+    table.insert(lines, string.rep(" ", BODY_INDENTATION) .. line)
+  end
 
   vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
 
