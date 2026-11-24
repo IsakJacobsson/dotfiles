@@ -16,5 +16,6 @@ require("mason-tool-installer").setup({
         "black",
         "isort",
         "stylua",
+        "rust-analyzer", -- Uses rust_analyser lsp config
     },
 })

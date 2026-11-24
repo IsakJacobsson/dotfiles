@@ -4,6 +4,7 @@ vim.lsp.enable({
     "lua_ls",
     "pyright",
     "vtsls",
+    "rust_analyzer",
 })
 
 -- Configure LSP-specific behavior when an LSP attaches to a buffer
